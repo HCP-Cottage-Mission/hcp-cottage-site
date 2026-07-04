@@ -1,25 +1,16 @@
-import { queryTable, insertTable, updateTable } from './_lib/db.js';
+import { pool } from './_lib/db.js';
 import { checkAdminAuth, sendUnauthorized } from './_lib/auth.js';
 
 export default async function handler(req, res) {
-  try {
-    if (req.method === 'GET') {
-      return await handleGet(req, res);
-    }
-
-    if (req.method === 'POST') {
-      return await handlePost(req, res);
-    }
-
-    res.status(405).json({ error: 'Method not allowed' });
-  } catch (err) {
-    console.error('API error:', err);
-    res.status(500).json({
-      error: 'Internal server error',
-      message: err.message,
-      details: process.env.NODE_ENV === 'development' ? err.stack : undefined
-    });
+  if (req.method === 'GET') {
+    return handleGet(req, res);
   }
+
+  if (req.method === 'POST') {
+    return handlePost(req, res);
+  }
+
+  res.status(405).json({ error: 'Method not allowed' });
 }
 
 async function handleGet(req, res) {
@@ -27,19 +18,19 @@ async function handleGet(req, res) {
     return sendUnauthorized(res);
   }
 
+  const client = await pool.connect();
   try {
-    const inquiries = await queryTable('guest_inquiries', {
-      filters: undefined,
-      order: 'received_at.desc',
-      limit: 100
-    });
-    res.json({ inquiries });
+    const result = await client.query(
+      `SELECT * FROM guest_inquiries
+       WHERE status IN ('pending', 'draft_ready')
+       ORDER BY received_at DESC`
+    );
+    res.json({ inquiries: result.rows });
   } catch (err) {
     console.error('Database error:', err);
-    return res.status(500).json({
-      error: 'Failed to fetch inquiries',
-      message: err.message
-    });
+    return res.status(500).json({ error: 'Failed to fetch inquiries', message: err.message });
+  } finally {
+    client.release();
   }
 }
 
@@ -50,23 +41,19 @@ async function handlePost(req, res) {
     return res.status(400).json({ error: 'Missing required fields: guest_email, subject, body' });
   }
 
+  const client = await pool.connect();
   try {
-    const inquiry = await insertTable('guest_inquiries', {
-      guest_email,
-      guest_name: guest_name || null,
-      subject,
-      body,
-      ai_draft: ai_draft || null,
-      ai_draft_generated_at: ai_draft ? new Date().toISOString() : null,
-      status: 'draft_ready',
-      n8n_execution_id: n8n_execution_id || null
-    });
-    res.json({ inquiry });
+    const result = await client.query(
+      `INSERT INTO guest_inquiries (guest_email, guest_name, subject, body, ai_draft, ai_draft_generated_at, status, n8n_execution_id)
+       VALUES ($1, $2, $3, $4, $5, $6, $7, $8)
+       RETURNING *`,
+      [guest_email, guest_name || null, subject, body, ai_draft || null, ai_draft ? new Date().toISOString() : null, 'draft_ready', n8n_execution_id || null]
+    );
+    res.json({ inquiry: result.rows[0] });
   } catch (err) {
     console.error('Database error:', err);
-    return res.status(500).json({
-      error: 'Failed to create inquiry',
-      message: err.message
-    });
+    return res.status(500).json({ error: 'Failed to create inquiry', message: err.message });
+  } finally {
+    client.release();
   }
 }
