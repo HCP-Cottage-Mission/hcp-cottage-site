@@ -3,13 +3,17 @@
 // NOT direct PostgreSQL TCP (custom ports blocked by firewall)
 
 const KONG_URL = 'https://hcpcottage-db.krh-cpw-mhm.cloud/rest/v1';
-const SUPABASE_KEY = process.env.SUPABASE_SERVICE_KEY;
 
-if (!SUPABASE_KEY) {
-  throw new Error('Missing SUPABASE_SERVICE_KEY environment variable for Kong HTTP API');
+function getSupabaseKey() {
+  const key = process.env.SUPABASE_SERVICE_KEY;
+  if (!key) {
+    throw new Error('Missing SUPABASE_SERVICE_KEY environment variable for Kong HTTP API');
+  }
+  return key;
 }
 
 export async function queryTable(tableName, options = {}) {
+  const SUPABASE_KEY = getSupabaseKey();
   const url = new URL(`${KONG_URL}/${tableName}`);
 
   if (options.filters) {
@@ -45,6 +49,7 @@ export async function queryTable(tableName, options = {}) {
 }
 
 export async function insertTable(tableName, data) {
+  const SUPABASE_KEY = getSupabaseKey();
   const response = await fetch(`${KONG_URL}/${tableName}`, {
     method: 'POST',
     headers: {
@@ -65,6 +70,7 @@ export async function insertTable(tableName, data) {
 }
 
 export async function updateTable(tableName, id, data) {
+  const SUPABASE_KEY = getSupabaseKey();
   const response = await fetch(`${KONG_URL}/${tableName}?id=eq.${id}`, {
     method: 'PATCH',
     headers: {
