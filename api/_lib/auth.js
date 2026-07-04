@@ -1,22 +1,18 @@
-const adminToken = process.env.ADMIN_TOKEN;
-
-if (!adminToken) {
-  throw new Error('Missing ADMIN_TOKEN environment variable');
+function getAdminToken() {
+  const token = process.env.ADMIN_TOKEN;
+  if (!token) {
+    throw new Error('Missing ADMIN_TOKEN environment variable');
+  }
+  return token;
 }
 
-function checkAdminAuth(req) {
+export function checkAdminAuth(req) {
+  const adminToken = getAdminToken();
   const authHeader = req.headers.authorization || '';
   const token = authHeader.replace('Bearer ', '').trim();
-
-  if (token !== adminToken) {
-    return false;
-  }
-
-  return true;
+  return token === adminToken;
 }
 
-function sendUnauthorized(res) {
+export function sendUnauthorized(res) {
   return res.status(401).json({ error: 'Unauthorized' });
 }
-
-module.exports = { checkAdminAuth, sendUnauthorized };
