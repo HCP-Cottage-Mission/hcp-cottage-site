@@ -1,6 +1,7 @@
 const { createClient } = require('@supabase/supabase-js');
 
-const supabaseUrl = process.env.VITE_SUPABASE_URL || 'http://hcpcottage-db.krh-cpw-mhm.cloud';
+const rawUrl = process.env.VITE_SUPABASE_URL || 'http://hcpcottage-db.krh-cpw-mhm.cloud';
+const supabaseUrl = rawUrl.replace('http://', 'https://');
 const supabaseKey = process.env.SUPABASE_SERVICE_KEY || process.env.VITE_SUPABASE_ANON_KEY;
 
 if (!supabaseUrl || !supabaseKey) {

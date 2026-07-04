@@ -18,17 +18,30 @@ async function handleGet(req, res) {
     return sendUnauthorized(res);
   }
 
-  const { data, error } = await supabase
-    .from('guest_inquiries')
-    .select('*')
-    .in('status', ['pending', 'draft_ready'])
-    .order('received_at', { ascending: false });
+  try {
+    const { data, error } = await supabase
+      .from('guest_inquiries')
+      .select('*')
+      .in('status', ['pending', 'draft_ready'])
+      .order('received_at', { ascending: false });
 
-  if (error) {
-    return res.status(500).json({ error: error.message });
+    if (error) {
+      console.error('Supabase error:', error);
+      return res.status(500).json({
+        error: error.message,
+        code: error.code,
+        details: process.env.NODE_ENV === 'development' ? error : undefined
+      });
+    }
+
+    res.json({ inquiries: data });
+  } catch (err) {
+    console.error('Handler error:', err);
+    return res.status(500).json({
+      error: err.message,
+      details: process.env.NODE_ENV === 'development' ? err.stack : undefined
+    });
   }
-
-  res.json({ inquiries: data });
 }
 
 async function handlePost(req, res) {
