@@ -298,3 +298,36 @@ Removed all explicit config and let Vercel auto-discover:
 
 Created api/test-simple.js to test if ANY serverless function works.
 Using export default (not named export) to test different format.
+
+## Official Decision: Migrate to Nitro (Vercel Standard)
+
+**Research Finding:** Plain Vite projects do NOT officially support /api
+serverless functions on Vercel. Official solution: Vite + Nitro.
+
+**Decision:** hcpcottage_site will migrate to Nitro framework for:
+- Official Vercel support
+- Zero-config deployment
+- Type-safe API routes (TypeScript)
+- Built-in middleware and error handling
+
+**Standards Documented:**
+- Global CLAUDE.md: Vercel + Vite + Nitro official standard
+- New Reference: ~/.claude/VERCEL_VITE_NITRO_STANDARD.md
+- Migration path: ~1-2 hours for hcpcottage_site
+
+## Official Decision: Migrate to Nitro (Vercel Standard)
+
+**Research Finding:** Plain Vite projects do NOT officially support /api
+serverless functions on Vercel. Official solution: Vite + Nitro.
+
+**Decision:** hcpcottage_site will migrate to Nitro framework for:
+- Official Vercel support
+- Zero-config deployment
+- Type-safe API routes (TypeScript)
+- Built-in middleware and error handling
+
+**Standards Established:**
+- Global CLAUDE.md: Updated with Vercel + Vite + Nitro official standard
+- New Reference: ~/.claude/VERCEL_VITE_NITRO_STANDARD.md (comprehensive guide)
+- All new Vite projects requiring APIs MUST use Nitro (mandatory)
+- Migration for hcpcottage_site: ~1-2 hours
