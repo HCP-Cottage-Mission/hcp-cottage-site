@@ -363,3 +363,11 @@ Reason: Nitro builds to .output, static files in .output/public
 ✅ Created nitro.config.ts with vercel preset
 ✅ Updated vite.config.js nitro() plugin with Vercel preset
 Testing if Vercel now properly handles Nitro serverless functions
+
+## CRITICAL FIX: Nitro Directory Structure (routes/api/, not server/routes/api/)
+
+✅ Research revealed the issue: Nitro expects routes in 'routes/api/' at root
+❌ We had them in 'server/routes/api/' (silent deployment failure)
+✅ Moved all routes to correct location: routes/api/
+✅ Updated import paths from ~/server/utils/db to ~/utils/db
+✅ Nitro build succeeds (29ms) - now routes will be recognized by Vercel
