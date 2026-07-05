@@ -352,3 +352,8 @@ Next: Remove old /api folder, deploy to Vercel, test
 Removed: /api directory with old handler patterns
 Reason: Migrated to Nitro (official Vercel framework)
 Impact: All endpoints now use server/routes/api/ (Nitro)
+
+## Fixed Vercel Output Directory for Nitro
+
+Updated vercel.json: outputDirectory from 'dist' to '.output/public'
+Reason: Nitro builds to .output, static files in .output/public
