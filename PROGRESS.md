@@ -238,3 +238,9 @@ Result: Vercel now uses only the new CommonJS /api/auth-*.js endpoints
 Issue: Catch-all SPA rewrite was intercepting /api requests
 Solution: Changed regex from /(.*) to /(?!api/)(.*) to exclude /api routes
 Result: /api routes now served as serverless functions, other routes use SPA
+
+## Simplified Vercel Configuration
+
+Previous attempt with negative lookahead regex didn't work.
+New approach: Removed catch-all SPA rewrite entirely.
+Let Vercel's Vite framework handler manage both API and SPA routing.

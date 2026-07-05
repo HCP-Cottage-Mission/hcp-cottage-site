@@ -4,7 +4,6 @@
   "framework": "vite",
   "rewrites": [
     { "source": "/admin/(.*)", "destination": "/api/admin/[[...slug]]" },
-    { "source": "/admin", "destination": "/api/admin/[[...slug]]" },
-    { "source": "/(?!api/)(.*)", "destination": "/index.html" }
+    { "source": "/admin", "destination": "/api/admin/[[...slug]]" }
   ]
 }
