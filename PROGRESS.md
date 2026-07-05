@@ -197,3 +197,9 @@ This should resolve login failures and allow the session cookie to be properly s
 
 
 Also fixed logout endpoint with same Set-Cookie format.
+
+## Critical Fix: Vercel API Routing
+
+Issue: Login endpoint returning 405, API routes not accessible from Vercel
+Root Cause: vercel.json had /api/(.*) rewrite that broke API endpoint discovery
+Solution: Removed the /api/(.*) rewrite. Vercel auto-discovers API routes.
