@@ -1,11 +1,16 @@
 export function checkAdminAuth(req) {
-  // Check for session cookie (set by /api/auth/login)
-  const cookies = req.headers.cookie || '';
-  const sessionCookie = cookies
-    .split('; ')
-    .find(c => c.startsWith('admin_session='));
+  // Check for session cookie - be explicit about what we're checking
+  const cookieHeader = req.headers.cookie;
 
-  return !!sessionCookie;
+  if (!cookieHeader) {
+    console.log('[AUTH] No cookie header present');
+    return false;
+  }
+
+  const hasSession = cookieHeader.includes('admin_session=');
+  console.log('[AUTH] Cookie header:', cookieHeader.substring(0, 50), '... Has session:', hasSession);
+
+  return hasSession;
 }
 
 export function sendUnauthorized(res) {

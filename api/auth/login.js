@@ -18,11 +18,14 @@ export default async function handler(req, res) {
 
   const sessionToken = Buffer.from(`${email}:${Date.now()}`).toString('base64');
 
-  res.setHeader('Set-Cookie', [
-    `admin_session=${sessionToken}; Path=/; HttpOnly; Secure; SameSite=Lax; Max-Age=86400`,
-  ]);
+  // Set session cookie
+  res.setHeader(
+    'Set-Cookie',
+    `admin_session=${sessionToken}; Path=/; HttpOnly; Secure; SameSite=Lax; Max-Age=86400`
+  );
 
-  res.status(200).json({
+  // Return success response
+  return res.status(200).json({
     success: true,
     message: 'Logged in successfully',
   });

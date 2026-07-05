@@ -171,3 +171,27 @@ After:  `fetch('/api/auth/login', { method: 'POST', ..., credentials: 'include' 
 
 This single line fixes the entire session authentication flow.
 
+
+## Critical Fix: Set-Cookie Header Format
+
+**Issue**: Login endpoint returning "Unexpected end of JSON input" error
+
+**Root Cause**: Set-Cookie header was using array format which Vercel doesn't handle properly:
+```javascript
+res.setHeader('Set-Cookie', [  // ❌ Array format
+  'admin_session=...; ...'
+]);
+```
+
+**Solution**: Changed to simple string format:
+```javascript
+res.setHeader(  // ✅ Simple string format
+  'Set-Cookie',
+  'admin_session=...; ...'
+);
+```
+
+Also added logging to auth.js to debug cookie handling.
+
+This should resolve login failures and allow the session cookie to be properly set.
+
