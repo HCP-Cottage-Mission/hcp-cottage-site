@@ -225,3 +225,10 @@ Files converted:
 - api/auth-login.js, auth-logout.js, auth-check.js
 - api/inquiries.js
 - api/_lib/auth.js, db.js
+
+## CRITICAL FIX: Removed Old Endpoint Folder
+
+Issue: Had BOTH /api/auth/* AND /api/auth-*.js endpoints
+Problem: Vercel was using old ES6 module files which don't work
+Solution: Deleted the old /api/auth/ folder completely
+Result: Vercel now uses only the new CommonJS /api/auth-*.js endpoints
