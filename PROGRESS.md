@@ -346,3 +346,9 @@ serverless functions on Vercel. Official solution: Vite + Nitro.
 ✅ Build succeeds (148ms, 1574 modules)
 
 Next: Remove old /api folder, deploy to Vercel, test
+
+## Cleanup: Removed Old Unsupported /api Folder
+
+Removed: /api directory with old handler patterns
+Reason: Migrated to Nitro (official Vercel framework)
+Impact: All endpoints now use server/routes/api/ (Nitro)
