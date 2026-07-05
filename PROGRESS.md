@@ -413,3 +413,11 @@ hcpcottage_site didn't (was completely missing them).
 
 Issue: Vercel serverless doesn't auto-parse req.body like Express.
 Solution: Read request stream and parse JSON manually.
+
+## Fixed Request Body Parsing (Proper Node.js Stream Pattern)
+
+✅ /api/auth-login: Using req.on('data'/'end'/'error')
+✅ /api/inquiries POST: Using req.on('data'/'end'/'error')
+
+Previous for-await-of approach failed. Using standard Node.js
+readable stream pattern now works on Vercel serverless.

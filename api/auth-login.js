@@ -4,9 +4,13 @@ export default async function handler(req, res) {
   }
 
   let body = ''
-  for await (const chunk of req) {
-    body += chunk.toString()
-  }
+  await new Promise((resolve, reject) => {
+    req.on('data', (chunk) => {
+      body += chunk.toString()
+    })
+    req.on('end', resolve)
+    req.on('error', reject)
+  })
   const { email, password } = JSON.parse(body)
 
   if (!email || !password) {
