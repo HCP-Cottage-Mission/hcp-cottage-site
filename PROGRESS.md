@@ -261,3 +261,11 @@ Changes:
 
 All handlers now use Web API Response objects with JSON.stringify().
 Cookies set via Response headers, not res.setHeader().
+
+## Vercel Function Runtime Configuration
+
+Added explicit "functions" config in vercel.json:
+{ "api/**/*.js": { "runtime": "nodejs20.x" } }
+
+This tells Vercel to treat /api routes as serverless functions,
+not static files or SPA routes.
