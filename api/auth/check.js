@@ -1,11 +1,11 @@
 export default function handler(req, res) {
-  // Check if admin_session cookie exists
-  const cookies = req.headers.cookie || '';
-  const sessionCookie = cookies.split('; ').find(c => c.startsWith('admin_session='));
+  const allCookies = req.headers.cookie || '';
+  const hasSession = allCookies.includes('admin_session=');
 
-  if (!sessionCookie) {
-    return res.status(401).json({ authenticated: false });
+  // Return 401 if no valid session, 200 if session exists
+  if (!hasSession) {
+    return res.status(401).json({ authenticated: false, cookies: allCookies });
   }
 
-  res.status(200).json({ authenticated: true });
+  return res.status(200).json({ authenticated: true });
 }

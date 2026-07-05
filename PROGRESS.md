@@ -151,3 +151,10 @@ This causes AdminApp to show inquiry list instead of login form
 
 Solution: Force redeploy of auth/check.js to ensure latest code is live on Vercel
 
+
+## Continued Debug: Auth Check Endpoint Investigation
+
+Issue: /api/auth/check returns 200 (authenticated) with no cookies
+Expected: Should return 401 (unauthorized) when no session cookie
+
+Added debugging info to response to see what cookies server actually receives
