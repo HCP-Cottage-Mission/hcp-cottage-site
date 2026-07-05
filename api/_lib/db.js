@@ -5,7 +5,7 @@
 // Pattern: Traefik TCP routing (no Kong HTTP) per CLAUDE.md policy
 // See: VERIFIED-VERCEL-DATABASE-ACCESS-PATTERN.md
 
-const pg = require('pg');
+import pg from 'pg';
 const { Pool } = pg;
 
 const databaseUrl = process.env.DATABASE_URL;
@@ -14,11 +14,9 @@ if (!databaseUrl) {
   throw new Error('Missing DATABASE_URL environment variable. Expected format: postgresql://user:password@72.61.75.78:5420/dbname (dev) or :5421/dbname (prod)');
 }
 
-const pool = new Pool({
+export const pool = new Pool({
   connectionString: databaseUrl,
   ssl: false, // Traefik TCP proxy is on same VPS, internal/trusted
 });
-
-module.exports = { pool };
 // Redeploy trigger: Sat Jul  4 21:22:59 EDT 2026
 // Redeploy trigger: Sat Jul  4 21:23:17 EDT 2026

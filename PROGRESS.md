@@ -244,3 +244,20 @@ Result: /api routes now served as serverless functions, other routes use SPA
 Previous attempt with negative lookahead regex didn't work.
 New approach: Removed catch-all SPA rewrite entirely.
 Let Vercel's Vite framework handler manage both API and SPA routing.
+
+## OFFICIAL VERCEL FIX: ES6 Named Exports
+
+✅ CONFIRMED FROM VERCEL DOCUMENTATION
+Converted all API endpoints from CommonJS to ES6 named exports.
+This is the OFFICIAL Vercel serverless function format.
+
+Changes:
+- api/auth-login.js: export async function POST(request)
+- api/auth-logout.js: export function POST(request)
+- api/auth-check.js: export function GET(request)
+- api/inquiries.js: export async function GET/POST(request)
+- api/_lib/db.js: export const pool
+- api/_lib/auth.js: export function checkAdminAuth(request)
+
+All handlers now use Web API Response objects with JSON.stringify().
+Cookies set via Response headers, not res.setHeader().

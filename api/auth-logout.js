@@ -1,9 +1,12 @@
-module.exports = function handler(req, res) {
-  // Clear session cookie by setting Max-Age=0
-  res.setHeader(
-    'Set-Cookie',
-    'admin_session=; Path=/; HttpOnly; Secure; SameSite=Lax; Max-Age=0'
+export function POST(request) {
+  return new Response(
+    JSON.stringify({ success: true, message: 'Logged out' }),
+    {
+      status: 200,
+      headers: {
+        'Content-Type': 'application/json',
+        'Set-Cookie': 'admin_session=; Path=/; HttpOnly; Secure; SameSite=Lax; Max-Age=0',
+      },
+    }
   );
-
-  return res.status(200).json({ success: true, message: 'Logged out' });
 }

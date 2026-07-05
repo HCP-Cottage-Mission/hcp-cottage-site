@@ -1,32 +1,36 @@
-module.exports = async function handler(req, res) {
-  if (req.method !== 'POST') {
-    return res.status(405).json({ error: 'Method not allowed' });
-  }
-
-  const { email, password } = req.body;
+export async function POST(request) {
+  const { email, password } = await request.json();
 
   if (!email || !password) {
-    return res.status(400).json({ error: 'Email and password required' });
+    return new Response(
+      JSON.stringify({ error: 'Email and password required' }),
+      { status: 400, headers: { 'Content-Type': 'application/json' } }
+    );
   }
 
   const adminEmail = process.env.ADMIN_EMAIL;
   const adminPassword = process.env.ADMIN_PASSWORD;
 
   if (email !== adminEmail || password !== adminPassword) {
-    return res.status(401).json({ error: 'Invalid email or password' });
+    return new Response(
+      JSON.stringify({ error: 'Invalid email or password' }),
+      { status: 401, headers: { 'Content-Type': 'application/json' } }
+    );
   }
 
   const sessionToken = Buffer.from(`${email}:${Date.now()}`).toString('base64');
 
-  // Set session cookie
-  res.setHeader(
-    'Set-Cookie',
-    `admin_session=${sessionToken}; Path=/; HttpOnly; Secure; SameSite=Lax; Max-Age=86400`
+  return new Response(
+    JSON.stringify({
+      success: true,
+      message: 'Logged in successfully',
+    }),
+    {
+      status: 200,
+      headers: {
+        'Content-Type': 'application/json',
+        'Set-Cookie': `admin_session=${sessionToken}; Path=/; HttpOnly; Secure; SameSite=Lax; Max-Age=86400`,
+      },
+    }
   );
-
-  // Return success response
-  return res.status(200).json({
-    success: true,
-    message: 'Logged in successfully',
-  });
 }

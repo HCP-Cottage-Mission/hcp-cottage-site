@@ -1,11 +1,16 @@
-module.exports = function handler(req, res) {
-  const allCookies = req.headers.cookie || '';
-  const hasSession = allCookies.includes('admin_session=');
+export function GET(request) {
+  const cookieHeader = request.headers.get('cookie') || '';
+  const hasSession = cookieHeader.includes('admin_session=');
 
-  // Return 401 if no valid session, 200 if session exists
   if (!hasSession) {
-    return res.status(401).json({ authenticated: false, cookies: allCookies });
+    return new Response(
+      JSON.stringify({ authenticated: false }),
+      { status: 401, headers: { 'Content-Type': 'application/json' } }
+    );
   }
 
-  return res.status(200).json({ authenticated: true });
+  return new Response(
+    JSON.stringify({ authenticated: true }),
+    { status: 200, headers: { 'Content-Type': 'application/json' } }
+  );
 }
