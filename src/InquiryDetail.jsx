@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { ChevronLeft, Send, Trash2 } from 'lucide-react';
 
-export default function InquiryDetail({ inquiry, token, onBack }) {
+export default function InquiryDetail({ inquiry, onBack, onLogout }) {
   const [response, setResponse] = useState(inquiry.ai_draft || '');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
@@ -20,8 +20,8 @@ export default function InquiryDetail({ inquiry, token, onBack }) {
     try {
       const res = await fetch(`/api/inquiry/${inquiry.id}/approve`, {
         method: 'POST',
+        credentials: 'include',
         headers: {
-          'Authorization': `Bearer ${token}`,
           'Content-Type': 'application/json'
         },
         body: JSON.stringify({ final_response: response })
@@ -47,8 +47,8 @@ export default function InquiryDetail({ inquiry, token, onBack }) {
     try {
       const res = await fetch(`/api/inquiry/${inquiry.id}/reject`, {
         method: 'POST',
+        credentials: 'include',
         headers: {
-          'Authorization': `Bearer ${token}`,
           'Content-Type': 'application/json'
         },
         body: JSON.stringify({ admin_notes: 'Rejected by admin' })

@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { Mail, Clock, AlertCircle } from 'lucide-react';
 
-export default function InquiryList({ token, onSelectInquiry, onLogout }) {
+export default function InquiryList({ onSelectInquiry, onLogout }) {
   const [inquiries, setInquiries] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
@@ -10,12 +10,12 @@ export default function InquiryList({ token, onSelectInquiry, onLogout }) {
     fetchInquiries();
     const interval = setInterval(fetchInquiries, 30000); // Refresh every 30s
     return () => clearInterval(interval);
-  }, [token]);
+  }, []);
 
   const fetchInquiries = async () => {
     try {
       const res = await fetch('/api/inquiries', {
-        headers: { 'Authorization': `Bearer ${token}` }
+        credentials: 'include',
       });
       if (!res.ok) throw new Error('Failed to fetch inquiries');
       const data = await res.json();

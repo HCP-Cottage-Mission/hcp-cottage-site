@@ -1,16 +1,11 @@
-function getAdminToken() {
-  const token = process.env.ADMIN_TOKEN;
-  if (!token) {
-    throw new Error('Missing ADMIN_TOKEN environment variable');
-  }
-  return token;
-}
-
 export function checkAdminAuth(req) {
-  const adminToken = getAdminToken();
-  const authHeader = req.headers.authorization || '';
-  const token = authHeader.replace('Bearer ', '').trim();
-  return token === adminToken;
+  // Check for session cookie (set by /api/auth/login)
+  const cookies = req.headers.cookie || '';
+  const sessionCookie = cookies
+    .split('; ')
+    .find(c => c.startsWith('admin_session='));
+
+  return !!sessionCookie;
 }
 
 export function sendUnauthorized(res) {

@@ -78,3 +78,35 @@
 
 **Infrastructure is production-ready. Admin approval workflow is fully operational.**
 
+
+## Admin Authentication Rebuild (Session 8 Continued — Fix UX)
+
+**Problem:** Token-based login required copying 64-char hex string (not standard)
+**Solution:** Email + Password login with secure session cookies
+
+**Implementation:**
+- New endpoints: /api/auth/login, /api/auth/logout, /api/auth/check
+- Session cookies (httpOnly, Secure, SameSite=Strict)
+- Email + password form (professional UX)
+- Session validation on app load
+- All APIs use credentials: include to auto-send cookies
+
+**Files Updated:**
+- api/auth/login.js — Validate credentials, set session cookie
+- api/auth/logout.js — Clear session
+- api/auth/check.js — Verify active session
+- src/AdminLogin.jsx — Email + password fields
+- src/AdminApp.jsx — Check auth on mount
+- src/InquiryList.jsx — Remove Bearer token
+- src/InquiryDetail.jsx — Remove Bearer token
+- api/_lib/auth.js — Check session cookie
+- vercel.json — Route /admin → /api/admin
+
+**Status:** Code ready, awaiting credentials configuration
+
+**Next Steps:**
+1. Set ADMIN_EMAIL in Vercel (development + production)
+2. Set ADMIN_PASSWORD in Vercel (development + production)
+3. Push and deploy
+4. Test with email + password login
+

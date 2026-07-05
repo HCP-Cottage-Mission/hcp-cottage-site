@@ -4,21 +4,54 @@ import InquiryList from './InquiryList';
 import InquiryDetail from './InquiryDetail';
 
 export default function AdminApp() {
-  const [token, setToken] = useState(() => sessionStorage.getItem('adminToken'));
+  const [authenticated, setAuthenticated] = useState(false);
+  const [checking, setChecking] = useState(true);
   const [selectedInquiry, setSelectedInquiry] = useState(null);
 
-  const handleLogin = (adminToken) => {
-    setToken(adminToken);
-    sessionStorage.setItem('adminToken', adminToken);
+  useEffect(() => {
+    checkAuth();
+  }, []);
+
+  const checkAuth = async () => {
+    try {
+      const response = await fetch('/api/auth/check', {
+        credentials: 'include',
+      });
+      setAuthenticated(response.ok);
+    } catch (err) {
+      setAuthenticated(false);
+    } finally {
+      setChecking(false);
+    }
   };
 
-  const handleLogout = () => {
-    setToken(null);
-    sessionStorage.removeItem('adminToken');
+  const handleLogin = () => {
+    setAuthenticated(true);
     setSelectedInquiry(null);
   };
 
-  if (!token) {
+  const handleLogout = async () => {
+    try {
+      await fetch('/api/auth/logout', {
+        method: 'POST',
+        credentials: 'include'
+      });
+    } catch (err) {
+      console.error('Logout error:', err);
+    }
+    setAuthenticated(false);
+    setSelectedInquiry(null);
+  };
+
+  if (checking) {
+    return (
+      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+        <div className="text-gray-600">Loading...</div>
+      </div>
+    );
+  }
+
+  if (!authenticated) {
     return <AdminLogin onLogin={handleLogin} />;
   }
 
@@ -27,12 +60,11 @@ export default function AdminApp() {
       {selectedInquiry ? (
         <InquiryDetail
           inquiry={selectedInquiry}
-          token={token}
           onBack={() => setSelectedInquiry(null)}
+          onLogout={handleLogout}
         />
       ) : (
         <InquiryList
-          token={token}
           onSelectInquiry={setSelectedInquiry}
           onLogout={handleLogout}
         />

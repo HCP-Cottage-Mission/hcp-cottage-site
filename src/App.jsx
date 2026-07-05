@@ -2,23 +2,23 @@ import React from 'react';
 import { Menu, X, MapPin, Star, Calendar, ArrowRight, Instagram, Heart, ShieldCheck, Plane, Train, Coffee, Utensils, ShoppingBag, Lock } from 'lucide-react';
 
 // Property Gallery Batch
-import gal1 from './pics/cottage_gal_1.jpg';
-import gal2 from './pics/cottage_gal_2.jpg';
-import gal3 from './pics/cottage_gal_3.jpg';
-import gal4 from './pics/cottage_gal_4.jpg';
-import gal5 from './pics/cottage_gal_5.jpg';
-import gal6 from './pics/cottage_gal_6.jpg';
-import gal7 from './pics/cottage_gal_7.jpg';
-import gal8 from './pics/cottage_gal_8.jpg';
-import gal9 from './pics/cottage_gal_9.jpg';
-import gal10 from './pics/cottage_gal_10.jpg';
-import gal11 from './pics/cottage_gal_11.jpg';
-import gal14 from './pics/cottage_gal_14.jpg';
+import gal1 from './pics/washer.jpg';
+import gal2 from './pics/Kitchen-glasses-left-refrigerator.jpg';
+import gal3 from './pics/cottage_walkway_night_2.jpg';
+import gal4 from './pics/cottage_porch_sofa.jpg';
+import gal5 from './pics/cottage_interior_main.jpg';
+import gal6 from './pics/cottage_closet.jpg';
+import gal7 from './pics/cottage_porch_dinette.jpg';
+import gal8 from './pics/cottage_porch_lights.jpg';
+import gal9 from './pics/cottage_porch_sittingarea.jpg';
+import gal10 from './pics/cottage_gal_40.jpg';
+import gal11 from './pics/cottage_walkway_night_1.jpg';
+import gal14 from './pics/cottage_guestgate_open.jpg';
 import gal18 from './pics/cottage_gal_18.jpg';
-import kit1 from './pics/cottage_gal_23.jpg';
-import kit2 from './pics/cottage_gal_15.jpg';
-import kit3 from './pics/cottage_gal_31.jpg';
-import amenities1 from './pics/cottage_gal_37.jpg';
+import kit1 from './pics/cottage_cottage_full_kitchen.jpg';
+import kit2 from './pics/cottage_kitchen_sink.jpg';
+import kit3 from './pics/cottage_kitchen_stove.jpg';
+import amenities1 from './pics/cottage_Livingroom-tv-left.jpg';
 import gate_night from './pics/cottage_gate_lock_night.jpg';
 
 const galleryItems = [
@@ -204,7 +204,7 @@ function App() {
             <div className="w-full md:w-1/2 flex flex-col items-end">
               <div className="grid grid-cols-2 gap-4 w-full">
                 <img src={gate_night} alt="Secure Entry" className="w-full h-[300px] object-cover rounded-3xl shadow-xl hover:-translate-y-2 transition-transform duration-500" />
-                <img src={gal8} alt="Evening Safety" className="w-full h-[300px] object-cover rounded-3xl shadow-xl mt-12 hover:-translate-y-2 transition-transform duration-500" />
+                <img src={gal8} alt="Evening Safety" className="w-full h-[300px] object-cover rounded-3xl shadow-xl hover:-translate-y-2 transition-transform duration-500" />
               </div>
             </div>
           </div>
