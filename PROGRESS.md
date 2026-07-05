@@ -421,3 +421,12 @@ Solution: Read request stream and parse JSON manually.
 
 Previous for-await-of approach failed. Using standard Node.js
 readable stream pattern now works on Vercel serverless.
+
+## Fixed Request Body Parsing (Node.js Readable Stream)
+
+✅ /api/auth-login: Using req.on('data'/'end'/'error')
+✅ /api/inquiries POST: Using req.on('data'/'end'/'error')
+
+Issue: Vercel serverless doesn't auto-parse request bodies.
+First attempt used for-await-of (failed on Vercel).
+Solution: Standard Node.js readable stream pattern now works.
