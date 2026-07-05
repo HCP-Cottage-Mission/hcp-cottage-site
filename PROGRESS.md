@@ -371,3 +371,18 @@ Testing if Vercel now properly handles Nitro serverless functions
 ✅ Moved all routes to correct location: routes/api/
 ✅ Updated import paths from ~/server/utils/db to ~/utils/db
 ✅ Nitro build succeeds (29ms) - now routes will be recognized by Vercel
+
+## Reverted to Proven /api/ Pattern (joanne-dashboard)
+
+✅ Removed Nitro (uninstalled package + removed Nitro config)
+✅ Created /api folder with working Express-style handlers:
+   - api/auth-login.js (handler(req, res) pattern)
+   - api/auth-logout.js
+   - api/auth-check.js
+   - api/inquiries.js (with database connection)
+✅ Simplified vercel.json (outputDirectory: 'dist')
+✅ Restored vite.config.js (removed Nitro plugin)
+✅ Local build successful (189ms)
+
+⏳ Vercel deployment still returning HTML for /api endpoints
+Need to check: Vercel build logs to diagnose routing issue
