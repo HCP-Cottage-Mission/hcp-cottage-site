@@ -110,3 +110,13 @@
 3. Push and deploy
 4. Test with email + password login
 
+
+## Admin Routing Final Fix
+
+**Problem:** /admin route was serving main website instead of admin dashboard
+**Root Cause:** Vercel SPA rewrite rule was catching /admin requests
+**Solution:** Create api/admin/[[...slug]].js catch-all function to serve admin.html
+
+This function intercepts all /admin/* requests and serves the built admin.html file,
+bypassing the SPA rewrite rule.
+
