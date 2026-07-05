@@ -293,3 +293,8 @@ Removed all explicit config and let Vercel auto-discover:
 - Build: npm run build → dist/
 - API routes: auto-discover from /api folder
 - Routing: Vercel default handling
+
+## Diagnostic Test: Simple Serverless Function
+
+Created api/test-simple.js to test if ANY serverless function works.
+Using export default (not named export) to test different format.
