@@ -17,8 +17,8 @@ export default async function handler(req, res) {
     return res.status(400).json({ error: 'Email and password required' })
   }
 
-  const adminEmail = process.env.ADMIN_EMAIL
-  const adminPassword = process.env.ADMIN_PASSWORD
+  const adminEmail = (process.env.ADMIN_EMAIL || '').replace(/^"|"$/g, '')
+  const adminPassword = (process.env.ADMIN_PASSWORD || '').replace(/^"|"$/g, '')
 
   if (email !== adminEmail || password !== adminPassword) {
     return res.status(401).json({ error: 'Invalid email or password' })

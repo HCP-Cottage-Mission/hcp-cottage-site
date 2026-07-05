@@ -430,3 +430,9 @@ readable stream pattern now works on Vercel serverless.
 Issue: Vercel serverless doesn't auto-parse request bodies.
 First attempt used for-await-of (failed on Vercel).
 Solution: Standard Node.js readable stream pattern now works.
+
+## Fixed Environment Variable Quote Stripping
+
+✅ Vercel env vars have quotes: ADMIN_EMAIL="value"
+✅ Fixed by stripping quotes: .replace(/^\"|\"$/g, '')
+✅ Login now works with real credentials
