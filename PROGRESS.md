@@ -331,3 +331,18 @@ serverless functions on Vercel. Official solution: Vite + Nitro.
 - New Reference: ~/.claude/VERCEL_VITE_NITRO_STANDARD.md (comprehensive guide)
 - All new Vite projects requiring APIs MUST use Nitro (mandatory)
 - Migration for hcpcottage_site: ~1-2 hours
+
+## Migrated to Nitro (Official Vercel Framework)
+
+✅ Installed Nitro package
+✅ Updated vite.config.js with Nitro plugin (named import)
+✅ Created server/routes/api/ structure
+✅ Migrated all handlers to Nitro format:
+   - server/routes/api/auth-login.ts
+   - server/routes/api/auth-logout.ts
+   - server/routes/api/auth-check.ts
+   - server/routes/api/inquiries.ts
+✅ Created server/utils/db.ts for database connection
+✅ Build succeeds (148ms, 1574 modules)
+
+Next: Remove old /api folder, deploy to Vercel, test
