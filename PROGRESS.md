@@ -386,3 +386,16 @@ Testing if Vercel now properly handles Nitro serverless functions
 
 ⏳ Vercel deployment still returning HTML for /api endpoints
 Need to check: Vercel build logs to diagnose routing issue
+
+## CRITICAL FIX: Vercel Routing Rewrites (vercel.json)
+
+🔍 ROOT CAUSE FOUND: Missing 'rewrites' in vercel.json
+
+Without routing rewrites, Vercel treats ALL requests as SPA fallback
+to index.html (including /api/* calls). The fix:
+- Added 'framework': 'vite' (helps Vercel detect project type)
+- Added 'rewrites' to route /api/(.*) to actual /api files
+- Added 'rewrites' to route everything else to /index.html (SPA)
+
+This is why joanne-dashboard works (has these rewrites) and
+hcpcottage_site didn't (was completely missing them).
