@@ -286,3 +286,10 @@ Removed all explicit config and let Vercel auto-discover:
 - Build: npm run build → dist/
 - API routes: auto-discover from /api folder
 - Routing: Vercel default handling
+
+## Simplify vercel.json to Auto-Discovery
+
+Removed all explicit config and let Vercel auto-discover:
+- Build: npm run build → dist/
+- API routes: auto-discover from /api folder
+- Routing: Vercel default handling
