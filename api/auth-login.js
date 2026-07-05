@@ -3,7 +3,11 @@ export default async function handler(req, res) {
     return res.status(405).json({ error: 'Method not allowed' })
   }
 
-  const { email, password } = req.body
+  let body = ''
+  for await (const chunk of req) {
+    body += chunk.toString()
+  }
+  const { email, password } = JSON.parse(body)
 
   if (!email || !password) {
     return res.status(400).json({ error: 'Email and password required' })

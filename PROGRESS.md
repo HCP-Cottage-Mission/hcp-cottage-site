@@ -405,3 +405,11 @@ hcpcottage_site didn't (was completely missing them).
 ✅ Created missing server/utils/db.js
 ✅ Exports Pool for API endpoints to use
 ✅ /api/inquiries can now connect to database
+
+## Fixed Request Body Parsing in API Endpoints
+
+✅ Fixed /api/auth-login: Parse JSON request body manually
+✅ Fixed /api/inquiries POST: Parse JSON request body manually
+
+Issue: Vercel serverless doesn't auto-parse req.body like Express.
+Solution: Read request stream and parse JSON manually.

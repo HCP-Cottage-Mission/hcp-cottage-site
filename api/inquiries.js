@@ -28,7 +28,11 @@ export default async function handler(req, res) {
   }
 
   if (req.method === 'POST') {
-    const { guest_email, guest_name, subject, body, ai_draft, n8n_execution_id } = req.body
+    let requestBody = ''
+    for await (const chunk of req) {
+      requestBody += chunk.toString()
+    }
+    const { guest_email, guest_name, subject, body, ai_draft, n8n_execution_id } = JSON.parse(requestBody)
 
     if (!guest_email || !subject || !body) {
       return res.status(400).json({ error: 'Missing required fields: guest_email, subject, body' })
