@@ -143,3 +143,11 @@ Files fixed:
 
 Impact: Session cookie will now be properly set and sent with API requests
 
+
+## Debug Session: Fixing Session Cookie Issue
+
+Root cause identified: /api/auth/check endpoint returning 200 (authenticated) even with no cookies
+This causes AdminApp to show inquiry list instead of login form
+
+Solution: Force redeploy of auth/check.js to ensure latest code is live on Vercel
+

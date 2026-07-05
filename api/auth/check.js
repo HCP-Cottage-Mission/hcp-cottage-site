@@ -1,6 +1,8 @@
 export default function handler(req, res) {
-  const sessionCookie = req.headers.cookie?.split('; ').find(c => c.startsWith('admin_session='));
-  
+  // Check if admin_session cookie exists
+  const cookies = req.headers.cookie || '';
+  const sessionCookie = cookies.split('; ').find(c => c.startsWith('admin_session='));
+
   if (!sessionCookie) {
     return res.status(401).json({ authenticated: false });
   }
