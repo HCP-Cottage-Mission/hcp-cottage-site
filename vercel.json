@@ -1,15 +1,4 @@
 {
   "buildCommand": "npm run build",
-  "outputDirectory": "dist",
-  "functions": {
-    "api/**/*.js": {
-      "runtime": "nodejs20.x"
-    }
-  },
-  "routes": [
-    { "src": "/api/(.*)", "methods": ["POST", "GET", "PUT", "DELETE"], "dest": "/api/$1.js" },
-    { "src": "/admin/(.*)", "methods": ["GET"], "dest": "/api/admin/[[...slug]].js" },
-    { "src": "/admin", "methods": ["GET"], "dest": "/api/admin/[[...slug]].js" },
-    { "src": "/(.*)", "methods": ["GET"], "dest": "/index.html" }
-  ]
+  "outputDirectory": "dist"
 }

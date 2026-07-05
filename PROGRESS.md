@@ -279,3 +279,10 @@ Removed framework: vite and switched to explicit routes:
 
 This gives explicit routing control instead of relying on
 Vite framework auto-detection which wasn't working properly.
+
+## Simplify vercel.json to Auto-Discovery
+
+Removed all explicit config and let Vercel auto-discover:
+- Build: npm run build → dist/
+- API routes: auto-discover from /api folder
+- Routing: Vercel default handling
