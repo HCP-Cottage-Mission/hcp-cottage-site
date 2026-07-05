@@ -14,7 +14,7 @@ export default function AdminApp() {
 
   const checkAuth = async () => {
     try {
-      const response = await fetch('/api/auth/check', {
+      const response = await fetch('/api/auth-check', {
         credentials: 'include',
       });
       setAuthenticated(response.ok);
@@ -32,7 +32,7 @@ export default function AdminApp() {
 
   const handleLogout = async () => {
     try {
-      await fetch('/api/auth/logout', {
+      await fetch('/api/auth-logout', {
         method: 'POST',
         credentials: 'include'
       });

@@ -203,3 +203,14 @@ Also fixed logout endpoint with same Set-Cookie format.
 Issue: Login endpoint returning 405, API routes not accessible from Vercel
 Root Cause: vercel.json had /api/(.*) rewrite that broke API endpoint discovery
 Solution: Removed the /api/(.*) rewrite. Vercel auto-discovers API routes.
+
+## Fix: Flat Endpoint Structure for Vercel
+
+Issue: /api/auth/* endpoints returning 405 or being routed to main app
+Root Cause: Vercel doesn't properly route nested subdirectories in /api/
+Solution: Moved auth endpoints to flat structure:
+- /api/auth/login → /api/auth-login.js
+- /api/auth/logout → /api/auth-logout.js
+- /api/auth/check → /api/auth-check.js
+
+Updated all references in React components.
