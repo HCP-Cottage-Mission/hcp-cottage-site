@@ -1,7 +1,7 @@
-import { pool } from './_lib/db.js';
-import { checkAdminAuth, sendUnauthorized } from './_lib/auth.js';
+const { pool } = require('./_lib/db.js');
+const { checkAdminAuth, sendUnauthorized } = require('./_lib/auth.js');
 
-export default async function handler(req, res) {
+module.exports = async function handler(req, res) {
   if (req.method === 'GET') {
     return handleGet(req, res);
   }

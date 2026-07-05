@@ -1,4 +1,4 @@
-export function checkAdminAuth(req) {
+function checkAdminAuth(req) {
   // Check for session cookie - be explicit about what we're checking
   const cookieHeader = req.headers.cookie;
 
@@ -13,6 +13,8 @@ export function checkAdminAuth(req) {
   return hasSession;
 }
 
-export function sendUnauthorized(res) {
+function sendUnauthorized(res) {
   return res.status(401).json({ error: 'Unauthorized' });
 }
+
+module.exports = { checkAdminAuth, sendUnauthorized };

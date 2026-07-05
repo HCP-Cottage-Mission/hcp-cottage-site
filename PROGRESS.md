@@ -214,3 +214,14 @@ Solution: Moved auth endpoints to flat structure:
 - /api/auth/check → /api/auth-check.js
 
 Updated all references in React components.
+
+## Critical Fix: CommonJS Format for Vercel
+
+Issue: Vercel couldn't execute API endpoints (405/HTML responses)
+Root Cause: Endpoints using ES6 (export/import) instead of CommonJS (require/module.exports)
+Solution: Converted all API endpoints and library files to CommonJS format
+
+Files converted:
+- api/auth-login.js, auth-logout.js, auth-check.js
+- api/inquiries.js
+- api/_lib/auth.js, db.js

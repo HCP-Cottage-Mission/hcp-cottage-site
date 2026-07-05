@@ -1,4 +1,4 @@
-export default function handler(req, res) {
+module.exports = function handler(req, res) {
   const allCookies = req.headers.cookie || '';
   const hasSession = allCookies.includes('admin_session=');
 
