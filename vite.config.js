@@ -9,7 +9,7 @@ export default defineConfig({
   plugins: [
     react(),
     tailwindcss(),
-    nitro(),
+    nitro({ presets: ['vercel'] }),
   ],
   build: {
     rollupOptions: {
