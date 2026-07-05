@@ -158,3 +158,16 @@ Issue: /api/auth/check returns 200 (authenticated) with no cookies
 Expected: Should return 401 (unauthorized) when no session cookie
 
 Added debugging info to response to see what cookies server actually receives
+
+## FINAL FIX: credentials: 'include' on Login
+
+**ROOT CAUSE FOUND AND FIXED**: The login fetch was missing `credentials: 'include'`
+
+Without this flag, browsers won't accept Set-Cookie headers from responses!
+
+File: src/AdminLogin.jsx, line 20
+Before: `fetch('/api/auth/login', { method: 'POST', ... })`
+After:  `fetch('/api/auth/login', { method: 'POST', ..., credentials: 'include' })`
+
+This single line fixes the entire session authentication flow.
+
