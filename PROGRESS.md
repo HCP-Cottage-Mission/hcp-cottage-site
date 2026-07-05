@@ -120,3 +120,13 @@
 This function intercepts all /admin/* requests and serves the built admin.html file,
 bypassing the SPA rewrite rule.
 
+
+## Critical Fix: Missing Auth Endpoints
+
+**Problem:** Login was failing with "Unexpected end of JSON input"
+**Root Cause:** /api/auth/login, logout, check endpoints didn't exist
+**Fix:** Created all three auth endpoints
+
+The frontend was calling endpoints that weren't deployed. Now all
+three endpoints (login, logout, check) are in place.
+
