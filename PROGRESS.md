@@ -232,3 +232,9 @@ Issue: Had BOTH /api/auth/* AND /api/auth-*.js endpoints
 Problem: Vercel was using old ES6 module files which don't work
 Solution: Deleted the old /api/auth/ folder completely
 Result: Vercel now uses only the new CommonJS /api/auth-*.js endpoints
+
+## FINAL FIX: Vercel Routing Configuration
+
+Issue: Catch-all SPA rewrite was intercepting /api requests
+Solution: Changed regex from /(.*) to /(?!api/)(.*) to exclude /api routes
+Result: /api routes now served as serverless functions, other routes use SPA
