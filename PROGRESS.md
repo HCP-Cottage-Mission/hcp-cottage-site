@@ -195,3 +195,5 @@ Also added logging to auth.js to debug cookie handling.
 
 This should resolve login failures and allow the session cookie to be properly set.
 
+
+Also fixed logout endpoint with same Set-Cookie format.
