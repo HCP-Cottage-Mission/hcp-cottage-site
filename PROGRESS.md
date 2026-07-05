@@ -399,3 +399,9 @@ to index.html (including /api/* calls). The fix:
 
 This is why joanne-dashboard works (has these rewrites) and
 hcpcottage_site didn't (was completely missing them).
+
+## Restored Database Connection (server/utils/db.js)
+
+✅ Created missing server/utils/db.js
+✅ Exports Pool for API endpoints to use
+✅ /api/inquiries can now connect to database
