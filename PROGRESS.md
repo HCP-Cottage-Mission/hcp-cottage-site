@@ -130,3 +130,16 @@ bypassing the SPA rewrite rule.
 The frontend was calling endpoints that weren't deployed. Now all
 three endpoints (login, logout, check) are in place.
 
+
+## Root Cause Found & Fixed: SameSite=Strict Blocking Cookies
+
+**Problem**: Session cookie wasn't being set. API returned 401 "Unauthorized"
+**Root Cause**: `SameSite=Strict` is too restrictive - blocks cookies from being sent with fetch requests
+**Solution**: Changed to `SameSite=Lax` which allows same-site fetch requests to include cookies
+
+Files fixed:
+- api/auth/login.js: SameSite=Strict → SameSite=Lax
+- api/auth/logout.js: SameSite=Strict → SameSite=Lax
+
+Impact: Session cookie will now be properly set and sent with API requests
+

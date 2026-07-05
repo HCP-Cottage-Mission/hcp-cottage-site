@@ -19,7 +19,7 @@ export default async function handler(req, res) {
   const sessionToken = Buffer.from(`${email}:${Date.now()}`).toString('base64');
 
   res.setHeader('Set-Cookie', [
-    `admin_session=${sessionToken}; Path=/; HttpOnly; Secure; SameSite=Strict; Max-Age=86400`,
+    `admin_session=${sessionToken}; Path=/; HttpOnly; Secure; SameSite=Lax; Max-Age=86400`,
   ]);
 
   res.status(200).json({
