@@ -269,3 +269,13 @@ Added explicit "functions" config in vercel.json:
 
 This tells Vercel to treat /api routes as serverless functions,
 not static files or SPA routes.
+
+## Switch from 'framework: vite' to Manual 'routes' Configuration
+
+Removed framework: vite and switched to explicit routes:
+- /api/(.*) → /api/$1.js (POST/GET/PUT/DELETE)
+- /admin → /api/admin/[[...slug]].js (GET)
+- /(.*) → /index.html (SPA fallback)
+
+This gives explicit routing control instead of relying on
+Vite framework auto-detection which wasn't working properly.
