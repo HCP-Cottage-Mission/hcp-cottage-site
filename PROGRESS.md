@@ -1,3 +1,13 @@
+## 2026-07-05 — ✅ FIX: Admin Panel Routing
+
+**Issue:** `/admin` route was caught by SPA catch-all rewrite and served `/index.html` instead of `/admin.html`
+
+**Fix:** Updated `vercel.json` to add `/admin` rewrite BEFORE the catch-all:
+```json
+{ "source": "/admin(.*)", "destination": "/admin.html" },
+```
+
+**Result:** Admin panel now loads at correct route. Ready to test login flow.
 
 ---
 
