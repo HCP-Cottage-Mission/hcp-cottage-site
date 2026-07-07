@@ -1,4 +1,4 @@
-import { pool } from '../../../server/utils/db.js'
+import { pool } from '../server/utils/db.js'
 import fetch from 'node-fetch'
 
 function checkAuth(req) {

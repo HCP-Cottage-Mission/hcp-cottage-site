@@ -1,4 +1,4 @@
-import { pool } from '../../../server/utils/db.js'
+import { pool } from '../server/utils/db.js'
 
 function checkAuth(req) {
   const cookieHeader = req.headers.cookie || ''
