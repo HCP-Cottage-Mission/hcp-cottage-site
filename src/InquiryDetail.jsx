@@ -18,7 +18,7 @@ export default function InquiryDetail({ inquiry, onBack, onLogout }) {
     setSuccess('');
 
     try {
-      const res = await fetch(`/api/inquiry/${inquiry.id}/approve`, {
+      const res = await fetch(`/api/inquiry-action?id=${inquiry.id}&action=approve`, {
         method: 'POST',
         credentials: 'include',
         headers: {
@@ -45,7 +45,7 @@ export default function InquiryDetail({ inquiry, onBack, onLogout }) {
     setError('');
 
     try {
-      const res = await fetch(`/api/inquiry/${inquiry.id}/reject`, {
+      const res = await fetch(`/api/inquiry-action?id=${inquiry.id}&action=reject`, {
         method: 'POST',
         credentials: 'include',
         headers: {
