@@ -1,4 +1,5 @@
 import { pool } from '../server/utils/db.js'
+import nodemailer from 'nodemailer'
 
 function checkAuth(req) {
   const cookieHeader = req.headers.cookie || ''
@@ -82,26 +83,38 @@ export default async function handler(req, res) {
         return res.status(400).json({ error: 'final_response required for approve action' })
       }
 
-      // Send email via /api/send-email endpoint
-      const baseUrl = process.env.VERCEL_URL
-        ? `https://${process.env.VERCEL_URL}`
-        : 'http://localhost:3000'
+      // Send email directly via Hostinger SMTP
+      const emailUser = (process.env.COTTAGE_EMAIL_USER || '').replace(/^"|"$/g, '')
+      const emailPassword = (process.env.COTTAGE_EMAIL_PASSWORD || '').replace(/^"|"$/g, '')
 
-      const emailResponse = await fetch(`${baseUrl}/api/send-email`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
+      if (!emailUser || !emailPassword) {
+        console.error('❌ Email credentials not configured')
+        return res.status(500).json({ error: 'Email credentials not configured' })
+      }
+
+      const transporter = nodemailer.createTransport({
+        host: 'smtp.hostinger.com',
+        port: 465,
+        secure: true,
+        auth: {
+          user: emailUser,
+          pass: emailPassword,
+        },
+      })
+
+      try {
+        const info = await transporter.sendMail({
+          from: 'info@hcpcottage.com',
           to: inquiry.guest_email,
           subject: `Re: ${inquiry.subject}`,
           html: final_response,
           text: final_response.replace(/<[^>]*>/g, ''),
-        }),
-      })
+        })
 
-      if (!emailResponse.ok) {
-        const errorData = await emailResponse.json()
-        console.error('❌ Email send failed:', errorData)
-        return res.status(500).json({ error: 'Failed to send email', details: errorData.error })
+        console.log(`✅ Email sent to ${inquiry.guest_email} (Message ID: ${info.messageId})`)
+      } catch (emailError) {
+        console.error('❌ Email send failed:', emailError.message)
+        return res.status(500).json({ error: 'Failed to send email', details: emailError.message })
       }
 
       // Update inquiry status
