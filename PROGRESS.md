@@ -446,3 +446,27 @@ Solution: Standard Node.js readable stream pattern now works.
 ✅ Vercel env vars have quotes: ADMIN_EMAIL="value"
 ✅ Fixed by stripping quotes: .replace(/^\"|\"$/g, '')
 ✅ Login now works with real credentials
+
+## 2026-08-23 — Fixed a live authentication bypass on the admin API
+
+Six admin routes gated on `cookieHeader.includes('admin_session=')` — a substring
+test, not a value check. Verified against production before the fix:
+
+```
+Cookie: admin_session=anything  ->  200 + every guest inquiry
+```
+
+Guest PII (names, emails, message bodies) was readable with a one-line curl and
+no credential. `POST /api/inquiry-action` returned 400 rather than 401 — auth had
+passed and only the body was rejected, so the write path was open too.
+
+The session token was also `base64(email:timestamp)`: encoding, not signing. Even
+a correct value comparison would have been forgeable.
+
+**Fix:** new `api/_session.js` — HMAC-SHA256 signed tokens, `timingSafeEqual`
+comparison, 24h expiry checked after signature validation, real cookie parsing,
+fail-closed when unconfigured. All six routes plus `auth-check` use it;
+`auth-login` mints signed tokens and compares credentials in constant time.
+
+Verified on production after deploy: every forged cookie now returns 401 with
+`{"error":"Unauthorized"}` and no data. 11 new regression tests, 49 passing.

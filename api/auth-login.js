@@ -1,3 +1,6 @@
+import crypto from 'crypto'
+import { createSessionToken, SESSION_COOKIE } from './_session.js'
+
 export default async function handler(req, res) {
   if (req.method !== 'POST') {
     return res.status(405).json({ error: 'Method not allowed' })
@@ -20,15 +23,23 @@ export default async function handler(req, res) {
   const adminEmail = (process.env.ADMIN_EMAIL || '').replace(/^"|"$/g, '')
   const adminPassword = (process.env.ADMIN_PASSWORD || '').replace(/^"|"$/g, '')
 
-  if (email !== adminEmail || password !== adminPassword) {
+  // Constant-time credential comparison, so a wrong password cannot be
+  // narrowed down by timing. Both sides are hashed first to equalise length.
+  const hash = (s) => crypto.createHash('sha256').update(String(s)).digest()
+  const emailOk = crypto.timingSafeEqual(hash(email), hash(adminEmail))
+  const passOk = crypto.timingSafeEqual(hash(password), hash(adminPassword))
+
+  if (!adminEmail || !adminPassword || !emailOk || !passOk) {
     return res.status(401).json({ error: 'Invalid email or password' })
   }
 
-  const sessionToken = Buffer.from(`${email}:${Date.now()}`).toString('base64')
+  // HMAC-signed and expiring. Was base64(email:timestamp) — encoding, not
+  // signing, so anyone could mint one.
+  const sessionToken = createSessionToken(email)
 
   res.setHeader(
     'Set-Cookie',
-    `admin_session=${sessionToken}; Path=/; HttpOnly; Secure; SameSite=Lax; Max-Age=86400`
+    `${SESSION_COOKIE}=${sessionToken}; Path=/; HttpOnly; Secure; SameSite=Lax; Max-Age=86400`
   )
 
   return res.status(200).json({

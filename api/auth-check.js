@@ -1,8 +1,9 @@
-export default function handler(req, res) {
-  const cookieHeader = req.headers.cookie || ''
-  const hasSession = cookieHeader.includes('admin_session=')
+import { isAuthenticated } from './_session.js'
 
-  if (!hasSession) {
+export default function handler(req, res) {
+  // Verified HMAC session check. This was previously a substring test on the
+  // cookie header, so `admin_session=anything` reported authenticated: true.
+  if (!isAuthenticated(req)) {
     return res.status(401).json({ authenticated: false })
   }
 

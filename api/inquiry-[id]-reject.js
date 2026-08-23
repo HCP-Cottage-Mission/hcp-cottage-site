@@ -1,9 +1,10 @@
 import { pool } from '../server/utils/db.js'
+import { isAuthenticated } from './_session.js'
 
-function checkAuth(req) {
-  const cookieHeader = req.headers.cookie || ''
-  return cookieHeader.includes('admin_session=')
-}
+// Verified HMAC session check. This was previously a substring test on the
+// cookie header, which accepted `admin_session=anything` -- an unauthenticated
+// read of all guest inquiries on production.
+const checkAuth = isAuthenticated
 
 export default async function handler(req, res) {
   if (req.method !== 'POST') {
